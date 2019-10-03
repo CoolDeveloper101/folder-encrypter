@@ -1,8 +1,6 @@
 import os
 from cryptography.fernet import Fernet
 
-PATH = 'C:\\Users\\HP\\Desktop\\test_folder'
-
 def key():
     key = Fernet.generate_key()
     return(key)
@@ -48,7 +46,6 @@ def _encrypt_folder(files):
             with open(file, 'wb') as f:
                 f.write(encrypt(Key, contents))
 
-# encrypt_folder(files)
 
 def _decrypt_folder(files):
     for file in files:
@@ -58,16 +55,29 @@ def _decrypt_folder(files):
             with open(file, 'w') as f:
                 f.write(decrypt(Key, contents))
 
-decrypt_folder(files)
-##encrypt_folder(files)
-
 
 def encrypt_folder(path):
     path = os.path.abspath(path)
+    if not os.path.exists(os.path.join(path, 'key.pem')):
+        with open(os.path.join(path, 'key.pem'), 'wb') as k:
+            Key = key()
+            k.write(Key)
+    else:
+        with open(os.path.join(path, 'key.pem'), 'rb') as k:
+            Key = k.read()
     files = getFiles(path)
     _encrypt_folder(files)
 
 def decrypt_folder(path):
     path = os.path.abspath(path)
+    if not os.path.exists(os.path.join(path, 'key.pem')):
+        with open(os.path.join(path, 'key.pem'), 'wb') as k:
+            Key = key()
+            k.write(Key)
+    else:
+        with open(os.path.join(path, 'key.pem'), 'rb') as k:
+            Key = k.read()
     files = getFiles(path)
-    _encrypt_folder(files)
+    _decrypt_folder(files)
+
+decrypt_folder(PATH)
