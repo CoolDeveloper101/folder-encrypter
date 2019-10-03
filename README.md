@@ -1,4 +1,4 @@
-# folder-encrypter
+# Folder-Encrypter
 This python can be used to encrypt and decrypt text files in a folder
 
 
