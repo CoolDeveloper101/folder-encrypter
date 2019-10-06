@@ -29,18 +29,9 @@ def getFiles(path):
 
     return tuple(files)
 
-files = getFiles(PATH)
-if not os.path.exists(os.path.join(PATH, 'key.pem')):
-    with open(os.path.join(PATH, 'key.pem'), 'wb') as k:
-        Key = key()
-        k.write(Key)
-else:
-    with open(os.path.join(PATH, 'key.pem'), 'rb') as k:
-        Key = k.read()
-
 def _encrypt_folder(files):
     for file in files:
-        if not file == os.path.join(PATH, 'key.pem'):
+        if not file == os.path.join(path, 'key.pem'):
             with open(file, 'r') as f:
                 contents = f.read()
             with open(file, 'wb') as f:
@@ -49,7 +40,7 @@ def _encrypt_folder(files):
 
 def _decrypt_folder(files):
     for file in files:
-        if not file == os.path.join(PATH, 'key.pem'):
+        if not file == os.path.join(path, 'key.pem'):
             with open(file, 'rb') as f:
                 contents = f.read()
             with open(file, 'w') as f:
@@ -79,5 +70,3 @@ def decrypt_folder(path):
             Key = k.read()
     files = getFiles(path)
     _decrypt_folder(files)
-
-decrypt_folder(PATH)
